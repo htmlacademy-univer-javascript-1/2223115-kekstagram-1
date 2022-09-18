@@ -5,7 +5,10 @@ function GetRandomNumber (begin, end){
 }
 GetRandomNumber();
 
-function CalculateMessage(message){
-  return message.lenght;
+function CalculateMessage(message, maxLength){
+  if (message.Length <= maxLength) {
+    return true;
+  }
+  return false;
 }
 CalculateMessage();
