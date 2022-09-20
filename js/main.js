@@ -1,4 +1,4 @@
-function getRandomNumber (begin, end){
+function getRandomNumber(begin, end){
   if(begin >= 0 && end >= begin){
     return Math.round(Math.random() * (end - begin) + begin);
   }
@@ -6,9 +6,9 @@ function getRandomNumber (begin, end){
 }
 getRandomNumber();
 
-function calculateMessage(message, maxLength){
-  return(message.Length <= maxLength);
+function chekMessageLength(message, maxLength){
+  return (message.Length <= maxLength);
 }
-calculateMessage();
+chekMessageLength();
 
 
