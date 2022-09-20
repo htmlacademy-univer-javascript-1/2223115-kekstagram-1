@@ -4,11 +4,11 @@ function getRandomNumber(begin, end){
   }
   return new Error('Error. Change input values');
 }
-getRandomNumber();
+getRandomNumber(1,4);
 
 function chekMessageLength(message, maxLength){
-  return (message.Length <= maxLength);
+  return (message.length <= maxLength);
 }
-chekMessageLength();
+chekMessageLength('Hello, world!',100);
 
 
