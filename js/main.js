@@ -1,14 +1,14 @@
-function getRandomNumber(begin, end){
-  if(begin >= 0 && end >= begin){
-    return Math.round(Math.random() * (end - begin) + begin);
-  }
-  return new Error('Error. Change input values');
+function  getRandomPositiveInteger(begin, end){
+  const lower = Math.ceil(Math.min(Math.abs(begin), Math.abs(end)));
+  const upper = Math.floor(Math.max(Math.abs(begin), Math.abs(end)));
+  const result = Math.random() * (upper - lower + 1) + lower;
+  return Math.floor(result);
 }
-getRandomNumber(1,4);
+getRandomPositiveInteger(1,4);
 
-function chekMessageLength(message, maxLength){
-  return (message.length <= maxLength);
+function checkStringLength(message, maxLength){
+  return message.length <= maxLength;
 }
-chekMessageLength('Hello, world!',100);
+checkStringLength('Hello, world!',100);
 
 
