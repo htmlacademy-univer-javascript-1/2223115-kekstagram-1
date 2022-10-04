@@ -6,7 +6,6 @@ const DESCRIPTIONS = [
   'КУСЬ'
 ];
 
-
 const MESSAGE = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -34,6 +33,19 @@ const SURNAME = [
   'Никитич'
 ];
 
+// eslint-disable-next-line no-unused-vars
+const NUMBER_OF_PUBLICATIONS = 25;
+let userID = 0;
+let commentID = 0;
+
+function getUsersID () {
+  return ++userID;
+}
+
+function getCommentsID () {
+  return ++commentID;
+}
+
 const getRandomPositiveInteger = (a, b) => {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
@@ -41,25 +53,27 @@ const getRandomPositiveInteger = (a, b) => {
   return Math.floor(result);
 };
 
-function checkStringLength(message, maxLength){
+// eslint-disable-next-line no-unused-vars
+function checkStringLength (message, maxLength) {
   return message.length <= maxLength;
 }
 
-function getRandomArrayElement(elements) {
+function getRandomArrayElement (elements) {
   return elements[getRandomPositiveInteger(0, elements.length - 1)];
 }
 
 const createPublication = () => ({
-  id: '',
-  url: '',
+  id: getUsersID,
+  url: `photos/${  getUsersID }.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomPositiveInteger(15, 200),
   comments: {
-    id: '',
-    avatar: 'img/avatar-' + getRandomPositiveInteger(0,6) + '.svg',
+    id: getCommentsID,
+    avatar: `img/avatar-${  getRandomPositiveInteger(0,6)  }.svg`,
     message: getRandomArrayElement(MESSAGE),
-    name: String(getRandomArrayElement(NAME) + '' + getRandomArrayElement(SURNAME))
-  }
+    name: `${getRandomArrayElement(NAME)  }${  getRandomArrayElement(SURNAME)}`,
+  },
 });
 
-const publications = Array.from({length: 25}, createPublication);
+// eslint-disable-next-line no-unused-vars
+const publications = Array.from({length: NUMBER_OF_PUBLICATIONS}, createPublication);
