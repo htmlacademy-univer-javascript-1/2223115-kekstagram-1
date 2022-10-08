@@ -62,18 +62,20 @@ function getRandomArrayElement (elements) {
   return elements[getRandomPositiveInteger(0, elements.length - 1)];
 }
 
-const createPublication = () => ({
-  id: getUsersID,
-  url: `photos/${  getUsersID }.jpg`,
-  description: getRandomArrayElement(DESCRIPTIONS),
-  likes: getRandomPositiveInteger(15, 200),
-  comments: {
-    id: getCommentsID,
-    avatar: `img/avatar-${  getRandomPositiveInteger(0,6)  }.svg`,
-    message: getRandomArrayElement(MESSAGE),
-    name: `${getRandomArrayElement(NAME)  }${  getRandomArrayElement(SURNAME)}`,
-  },
-});
+const createPublication = () => {
+  return {
+    id: getUsersID(),
+    url: 'photos/' + getUsersID + '.jpg',
+    description: getRandomArrayElement(DESCRIPTIONS),
+    likes: getRandomPositiveInteger(15, 200),
+    comments: {
+      id: getCommentsID,
+      avatar: 'img/avatar-' + getRandomPositiveInteger(0,6) + '.svg',
+      message: getRandomArrayElement(MESSAGE),
+      name: getRandomArrayElement(NAME) + ' ' + getRandomArrayElement(SURNAME),
+  };
+  };
+};
 
 // eslint-disable-next-line no-unused-vars
 const publications = Array.from({length: NUMBER_OF_PUBLICATIONS}, createPublication);
