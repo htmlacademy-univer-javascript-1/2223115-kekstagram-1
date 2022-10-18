@@ -20,4 +20,4 @@ const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0,
 // eslint-disable-next-line no-unused-vars
 const checkStringLength = (message, maxLength) => message.length <= maxLength;
 
-export {getRandomArrayElement, getCommentsID, getUsersID};
+export {getRandomArrayElement, getRandomPositiveInteger, getCommentsID, getUsersID};
