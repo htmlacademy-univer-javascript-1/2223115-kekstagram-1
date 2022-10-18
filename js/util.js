@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-unused-vars
+const checkStringLength = (message, maxLength) => message.length <= maxLength;
+
 let userID = 0;
 let commentID = 0;
 
@@ -16,8 +19,5 @@ const getRandomPositiveInteger = (a, b) => {
 
 // eslint-disable-next-line no-unused-vars
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
-
-// eslint-disable-next-line no-unused-vars
-const checkStringLength = (message, maxLength) => message.length <= maxLength;
 
 export {getRandomArrayElement, getRandomPositiveInteger, getCommentsID, getUsersID};

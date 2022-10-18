@@ -44,7 +44,7 @@ const createPublication = () => ({
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomPositiveInteger(15, 200),
   comments: {
-    id: getCommentsID,
+    id: getCommentsID(),
     avatar: `img/avatar-${  getRandomPositiveInteger(0,6)  }.svg`,
     message: getRandomArrayElement(MESSAGES),
     name: `${getRandomArrayElement(NAMES)  } ${  getRandomArrayElement(SURNAMES)}`,
