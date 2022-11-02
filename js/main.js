@@ -11,4 +11,3 @@ function checkStringLength(message, maxLength){
 }
 checkStringLength('Hello, world!',100);
 
-
