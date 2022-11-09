@@ -38,17 +38,21 @@ const SURNAMES = [
 // eslint-disable-next-line no-unused-vars
 const NUMBER_OF_PUBLICATIONS = 25;
 
+function createComment (){
+  return {
+    id: getCommentsID(),
+    avatar: `img/avatar-${  getRandomPositiveInteger(0,6)  }.svg`,
+    message: getRandomArrayElement(MESSAGES),
+    name: `${getRandomArrayElement(NAMES)  } ${  getRandomArrayElement(SURNAMES)}`,
+  };
+}
+
 const createPublication = () => ({
   id: getUsersID(),
   url: `photos/${  getUsersID()  }.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomPositiveInteger(15, 200),
-  comments: {
-    id: getCommentsID(),
-    avatar: `img/avatar-${  getRandomPositiveInteger(0,6)  }.svg`,
-    message: getRandomArrayElement(MESSAGES),
-    name: `${getRandomArrayElement(NAMES)  } ${  getRandomArrayElement(SURNAMES)}`,
-  },
+  comments: Array.from({length: getRandomPositiveInteger(1, 4)}, createComment)
 });
 
 // eslint-disable-next-line no-unused-vars
