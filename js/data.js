@@ -1,4 +1,4 @@
-import {getRandomArrayElement, getCommentsID, getUsersID} from './util.js';
+import {getRandomArrayElement, getRandomPositiveInteger, getCommentsID, getUsersID} from './util.js';
 
 const DESCRIPTIONS = [
   'Мяутительный выходной!',
@@ -40,18 +40,18 @@ const NUMBER_OF_PUBLICATIONS = 25;
 
 const createPublication = () => ({
   id: getUsersID(),
-  url: 'photos/' + getUsersID + '.jpg',
+  url: `photos/${  getUsersID()  }.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomPositiveInteger(15, 200),
   comments: {
-    id: getCommentsID,
-    avatar: 'img/avatar-' + getRandomPositiveInteger(0,6) + '.svg',
+    id: getCommentsID(),
+    avatar: `img/avatar-${  getRandomPositiveInteger(0,6)  }.svg`,
     message: getRandomArrayElement(MESSAGES),
-    name: getRandomArrayElement(NAMES) + ' ' + getRandomArrayElement(SURNAMES),
+    name: `${getRandomArrayElement(NAMES)  } ${  getRandomArrayElement(SURNAMES)}`,
   },
 });
 
 // eslint-disable-next-line no-unused-vars
-const publications = () =>  Array.from({length: NUMBER_OF_PUBLICATIONS}, createPublication);
+const createPublications = () =>  Array.from({length: NUMBER_OF_PUBLICATIONS}, createPublication);
 
-export {publications};
+export {createPublications};
