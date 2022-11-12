@@ -38,12 +38,12 @@ const SURNAMES = [
 // eslint-disable-next-line no-unused-vars
 const NUMBER_OF_PUBLICATIONS = 25;
 
-function createComment (){
+function createComment () {
   return {
     id: getCommentsID(),
     avatar: `img/avatar-${  getRandomPositiveInteger(0,6)  }.svg`,
     message: getRandomArrayElement(MESSAGES),
-    name: `${getRandomArrayElement(NAMES)  } ${  getRandomArrayElement(SURNAMES)}`,
+    name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`,
   };
 }
 
