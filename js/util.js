@@ -20,4 +20,6 @@ const getRandomPositiveInteger = (a, b) => {
 // eslint-disable-next-line no-unused-vars
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
-export {getRandomArrayElement, getRandomPositiveInteger, getCommentsID, getUsersID};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getRandomArrayElement, getRandomPositiveInteger, getCommentsID, getUsersID, isEscapeKey};
