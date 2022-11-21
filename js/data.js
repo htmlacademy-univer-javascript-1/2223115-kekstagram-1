@@ -52,7 +52,7 @@ const createPublication = () => ({
   url: `photos/${  getUsersID()  }.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomPositiveInteger(15, 200),
-  comments: Array.from({length: getRandomPositiveInteger(1, 4)}, createComment)
+  comments: Array.from({length: getRandomPositiveInteger(1, 30)}, createComment)
 });
 
 // eslint-disable-next-line no-unused-vars
