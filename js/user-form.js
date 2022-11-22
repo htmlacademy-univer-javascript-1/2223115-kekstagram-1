@@ -94,8 +94,17 @@ function validateHashTags (value) {
 
 const validateDescription = (value) => value.length <= MAX_DESCRIPTION_LENGTH;
 
-pristine.addValidator(descriptionElement,validateHashTags, hashTagsErorrmessage);
-pristine.addValidator(hashTagsElement,validateDescription, 'Длина комментария не может составлять больше 140 символов.');
+pristine.addValidator(hashTagsElement,validateHashTags, hashTagsErorrmessage);
+pristine.addValidator(descriptionElement,validateDescription, 'Длина комментария не может составлять больше 140 символов.');
+
+function validateForm () {
+  pristine.validate();
+  if (pristine.validate()) {
+    SubmitEditorButton.disabled = false;
+  } else {
+    SubmitEditorButton.disabled = true;
+  }
+}
 
 
 function closeEditor () {
@@ -104,6 +113,8 @@ function closeEditor () {
 
   closeEditorButton.removeEventListener('click', onEditorCloseButtonClick);
   document.removeEventListener('keydown', onEditorEscKeydown);
+  hashTagsElement.removeEventListener('input', validateForm);
+  descriptionElement.removeEventListener('input', validateForm);
 }
 
 function openEditor () {
@@ -112,8 +123,6 @@ function openEditor () {
 
   closeEditorButton.addEventListener('click', onEditorCloseButtonClick);
   document.addEventListener('keydown', onEditorEscKeydown);
-  imgUploadForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    pristine.validate();
-  });
+  hashTagsElement.addEventListener('input', validateForm);
+  descriptionElement.addEventListener('input', validateForm);
 }
