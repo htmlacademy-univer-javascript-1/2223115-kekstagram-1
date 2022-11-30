@@ -68,16 +68,16 @@ function openBigPicture ({url, description, likes, comments}) {
   bigPicture.classList.remove('hidden');
   bigPicture.querySelector('.big-picture__img').querySelector('img').setAttribute('src', url);
   bigPicture.querySelector('.likes-count').textContent = likes;
-  bigPicture.querySelector('.comments-count').textContent = comments.length;
+  commentsCount.textContent = comments.length;
   bigPicture.querySelector('.social__caption').textContent = description;
+
+  loadingСommentsButton.classList.remove('hidden');
+  document.querySelector('body').classList.add('modal-open');
 
   commentsBlock.innerHTML = '';
   allComments = comments;
   currentCommentCounter = 0;
   loadNewComments();
-
-  loadingСommentsButton.classList.remove('hidden');
-  document.querySelector('body').classList.add('modal-open');
 
   closePictureButton.addEventListener('click',  onBigPictureCloseButtonClick);
   document.addEventListener('keydown', onBigPictureEscKeydown);

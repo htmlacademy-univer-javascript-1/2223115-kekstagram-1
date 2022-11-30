@@ -1,16 +1,19 @@
 import {isEscapeKey} from './util.js';
+import {imgUploadForm, addScaling, removeScaling} from './editor-scale.js';
+import {addEffects, removeEffects} from './editor-effects.js';
 
 const MAX_HASHTAGS_COUNT = 5;
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_DESCRIPTION_LENGTH = 140;
 const re = /^#[A-Za-zА-Яа-я0-9]{1,19}$/;
-let hashTagsErorrmessage = '';
+let hashTagsErrormessage = '';
 
 const body = document.querySelector('body');
-const imgUploadForm = document.querySelector('.img-upload__form');
+
 const uploadedFile = imgUploadForm.querySelector('#upload-file');
 const imgEditor = imgUploadForm.querySelector('.img-upload__overlay');
 const closeEditorButton = imgUploadForm.querySelector('#upload-cancel');
+const submitEditorButton = imgUploadForm.querySelector('.img-upload__submit');
 const hashTagsElement = imgUploadForm.querySelector('.text__hashtags');
 const descriptionElement = imgUploadForm.querySelector('.text__description');
 
@@ -58,33 +61,33 @@ function hasDuplicates (array) {
 }
 
 function validateHashTags (value) {
-  hashTagsErorrmessage = '';
+  hashTagsErrormessage = '';
   value = value.toLowerCase();
-  const arrHashTags = value.split(' ');
+  const arrHashTags = value.trim().split(' ');
   if (arrHashTags) {
     for (const hashTag of arrHashTags) {
       if(!re.test(hashTag)){
         if (hashTag[0] !== '#') {
-          hashTagsErorrmessage = 'Хэш-тег должен начинаться с символа # (решётка).';
+          hashTagsErrormessage = 'Хэш-тег должен начинаться с символа # (решётка).';
           return false;
         }
         if (hashTag.length === 1 && hashTag[0] === '#') {
-          hashTagsErorrmessage = 'Хеш-тег не может состоять только из одной решётки.';
+          hashTagsErrormessage = 'Хеш-тег не может состоять только из одной решётки.';
           return false;
         }
         if (hashTag.length > MAX_HASHTAG_LENGTH) {
-          hashTagsErorrmessage = 'Максимальная длина одного хэш-тега не должна превышать 20 символов, включая решётку.';
+          hashTagsErrormessage = 'Максимальная длина одного хэш-тега не должна превышать 20 символов, включая решётку.';
           return false;
         }
-        hashTagsErorrmessage = 'Строка после решётки должна состоять только из букв и чисел.';
+        hashTagsErrormessage = 'Строка после решётки должна состоять только из букв и чисел.';
         return false;
       }
       if (arrHashTags.length > MAX_HASHTAGS_COUNT) {
-        hashTagsErorrmessage = 'Нельзя указать больше пяти хэш-тегов.';
+        hashTagsErrormessage = 'Нельзя указать больше пяти хэш-тегов.';
         return false;
       }
       if (hasDuplicates(arrHashTags)){
-        hashTagsErorrmessage = 'Один и тот же хэш-тег не может быть использован дважды.';
+        hashTagsErrormessage = 'Один и тот же хэш-тег не может быть использован дважды.';
         return false;
       }
     }
@@ -94,22 +97,26 @@ function validateHashTags (value) {
 
 const validateDescription = (value) => value.length <= MAX_DESCRIPTION_LENGTH;
 
-pristine.addValidator(hashTagsElement,validateHashTags, hashTagsErorrmessage);
+const generatehashTagsErrormessage = () => hashTagsErrormessage;
+
+pristine.addValidator(hashTagsElement,validateHashTags, generatehashTagsErrormessage);
 pristine.addValidator(descriptionElement,validateDescription, 'Длина комментария не может составлять больше 140 символов.');
 
-function validateForm () {
-  pristine.validate();
+function validateForm (evt) {
   if (pristine.validate()) {
-    SubmitEditorButton.disabled = false;
+    submitEditorButton.disabled = false;
   } else {
-    SubmitEditorButton.disabled = true;
+    evt.preventDefault();
+    submitEditorButton.disabled = true;
   }
 }
-
 
 function closeEditor () {
   imgEditor.classList.add('hidden');
   body.classList.remove('modal-open');
+
+  removeScaling();
+  removeEffects();
 
   closeEditorButton.removeEventListener('click', onEditorCloseButtonClick);
   document.removeEventListener('keydown', onEditorEscKeydown);
@@ -120,6 +127,9 @@ function closeEditor () {
 function openEditor () {
   imgEditor.classList.remove('hidden');
   body.classList.add('modal-open');
+
+  addScaling();
+  addEffects();
 
   closeEditorButton.addEventListener('click', onEditorCloseButtonClick);
   document.addEventListener('keydown', onEditorEscKeydown);
