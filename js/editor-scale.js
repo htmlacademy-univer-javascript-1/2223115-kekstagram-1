@@ -12,14 +12,14 @@ const imgUploadPreviewElement = imgUploadForm.querySelector('.img-upload__previe
 
 scaleValue.value = `${DEFAULT_VALUE}%`;
 
-const changeScaleValue = () => parseInt(scaleValue.value, 10);
+const getScaleValue = () => parseInt(scaleValue.value, 10);
 
-function getImgScaleTransform() {
-  imgUploadPreviewElement.style.transform = `scale(${(changeScaleValue() / 100)})`;
+function convertImgScale() {
+  imgUploadPreviewElement.style.transform = `scale(${(getScaleValue() / 100)})`;
 }
 
 function getSmallerScalevalue() {
-  let result = changeScaleValue() - SCALE_STEP;
+  let result = getScaleValue() - SCALE_STEP;
   if (result < MIN_SCALE_VALUE) {
     result = MIN_SCALE_VALUE;
   }
@@ -27,7 +27,7 @@ function getSmallerScalevalue() {
 }
 
 function getBiggerScaleValue() {
-  let result = changeScaleValue() + SCALE_STEP;
+  let result = getScaleValue() + SCALE_STEP;
   if (result > MAX_SCALE_VALUE) {
     result = MAX_SCALE_VALUE;
   }
@@ -36,16 +36,16 @@ function getBiggerScaleValue() {
 
 function onSmallerScaleElementClick() {
   getSmallerScalevalue();
-  getImgScaleTransform();
+  convertImgScale();
 }
 
 function onBiggerScaleElementClick() {
   getBiggerScaleValue();
-  getImgScaleTransform();
+  convertImgScale();
 }
 
 function addScaling () {
-  getImgScaleTransform();
+  convertImgScale();
   smallerScaleElement.addEventListener('click', onSmallerScaleElementClick);
   biggerScaleElement.addEventListener('click', onBiggerScaleElementClick);
 }

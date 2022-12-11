@@ -101,7 +101,7 @@ const EFFECTS = {
   }
 };
 
-const effesctsRadioButtons = imgUploadForm.querySelector('.effects__list');
+const effectRadioButton = imgUploadForm.querySelector('.effects__list');
 const depthEffectValue = imgUploadForm.querySelector('.effect-level__value');
 const depthEffectRange= imgUploadForm.querySelector('.img-upload__effect-level');
 const sliderElement = imgUploadForm.querySelector('.effect-level__slider');
@@ -207,15 +207,15 @@ function onEffectChange (evt) {
   }
 }
 
-function addEffects () {
+function addEffect () {
   imgUploadPreviewElement.classList.add('effects__preview--none');
   depthEffectRange.classList.add('hidden');
-  effesctsRadioButtons.addEventListener('change', onEffectChange);
+  effectRadioButton.addEventListener('change', onEffectChange);
 }
 
-function removeEffects () {
+function removeEffect () {
   removeLastEffect();
-  effesctsRadioButtons.removeEventListener('change', onEffectChange);
+  effectRadioButton.removeEventListener('change', onEffectChange);
 }
 
-export {addEffects, removeEffects};
+export {addEffect, removeEffect};
