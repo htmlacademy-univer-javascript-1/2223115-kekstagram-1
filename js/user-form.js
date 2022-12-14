@@ -1,12 +1,13 @@
-import {isEscapeKey} from './util.js';
+import {isEscapeKey, showAlert} from './util.js';
 import {imgUploadForm, addScaling, removeScaling} from './editor-scale.js';
-import {addEffects, removeEffects} from './editor-effects.js';
+import {addEffect, removeEffect} from './editor-effects.js';
+import {sendDataToServer} from './api.js';
 
 const MAX_HASHTAGS_COUNT = 5;
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_DESCRIPTION_LENGTH = 140;
 const re = /^#[A-Za-zА-Яа-я0-9]{1,19}$/;
-let hashTagsErrormessage = '';
+let hashTagsErrorMessage = '';
 
 const body = document.querySelector('body');
 
@@ -61,33 +62,33 @@ function hasDuplicates (array) {
 }
 
 function validateHashTags (value) {
-  hashTagsErrormessage = '';
+  hashTagsErrorMessage = '';
   value = value.toLowerCase();
   const arrHashTags = value.trim().split(' ');
-  if (arrHashTags) {
+  if (arrHashTags.length !== 0) {
     for (const hashTag of arrHashTags) {
       if(!re.test(hashTag)){
         if (hashTag[0] !== '#') {
-          hashTagsErrormessage = 'Хэш-тег должен начинаться с символа # (решётка).';
+          hashTagsErrorMessage = 'Хэш-тег должен начинаться с символа # (решётка).';
           return false;
         }
         if (hashTag.length === 1 && hashTag[0] === '#') {
-          hashTagsErrormessage = 'Хеш-тег не может состоять только из одной решётки.';
+          hashTagsErrorMessage = 'Хеш-тег не может состоять только из одной решётки.';
           return false;
         }
         if (hashTag.length > MAX_HASHTAG_LENGTH) {
-          hashTagsErrormessage = 'Максимальная длина одного хэш-тега не должна превышать 20 символов, включая решётку.';
+          hashTagsErrorMessage = 'Максимальная длина одного хэш-тега не должна превышать 20 символов, включая решётку.';
           return false;
         }
-        hashTagsErrormessage = 'Строка после решётки должна состоять только из букв и чисел.';
+        hashTagsErrorMessage = 'Строка после решётки должна состоять только из букв и чисел.';
         return false;
       }
       if (arrHashTags.length > MAX_HASHTAGS_COUNT) {
-        hashTagsErrormessage = 'Нельзя указать больше пяти хэш-тегов.';
+        hashTagsErrorMessage = 'Нельзя указать больше пяти хэш-тегов.';
         return false;
       }
       if (hasDuplicates(arrHashTags)){
-        hashTagsErrormessage = 'Один и тот же хэш-тег не может быть использован дважды.';
+        hashTagsErrorMessage = 'Один и тот же хэш-тег не может быть использован дважды.';
         return false;
       }
     }
@@ -97,9 +98,9 @@ function validateHashTags (value) {
 
 const validateDescription = (value) => value.length <= MAX_DESCRIPTION_LENGTH;
 
-const generatehashTagsErrormessage = () => hashTagsErrormessage;
+const generateHashTagsErrorMessage = () => hashTagsErrorMessage;
 
-pristine.addValidator(hashTagsElement,validateHashTags, generatehashTagsErrormessage);
+pristine.addValidator(hashTagsElement,validateHashTags, generateHashTagsErrorMessage);
 pristine.addValidator(descriptionElement,validateDescription, 'Длина комментария не может составлять больше 140 символов.');
 
 function validateForm (evt) {
@@ -116,7 +117,7 @@ function closeEditor () {
   body.classList.remove('modal-open');
 
   removeScaling();
-  removeEffects();
+  removeEffect();
 
   closeEditorButton.removeEventListener('click', onEditorCloseButtonClick);
   document.removeEventListener('keydown', onEditorEscKeydown);
@@ -129,10 +130,44 @@ function openEditor () {
   body.classList.add('modal-open');
 
   addScaling();
-  addEffects();
+  addEffect();
 
   closeEditorButton.addEventListener('click', onEditorCloseButtonClick);
   document.addEventListener('keydown', onEditorEscKeydown);
   hashTagsElement.addEventListener('input', validateForm);
   descriptionElement.addEventListener('input', validateForm);
 }
+
+const unblockSubmitButton = () => {
+  submitEditorButton.disabled = false;
+  submitEditorButton.textContent = 'Опубликовать';
+};
+
+const blockSubmitButton = () => {
+  submitEditorButton.disabled = true;
+  submitEditorButton.textContent = 'Публикую...';
+};
+
+const setUserFormSubmit = (onSuccess) => {
+  uploadedFile.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendDataToServer(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+        },
+        () => {
+          showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+export {setUserFormSubmit, closeEditor};
