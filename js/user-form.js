@@ -79,7 +79,6 @@ function openEditor () {
     imgUploadPreviewElement.src = URL.createObjectURL(img);
   }
 
-
   imgEditor.classList.remove('hidden');
   body.classList.add('modal-open');
 

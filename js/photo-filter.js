@@ -1,5 +1,7 @@
 import {shuffleArray} from './util.js';
 
+const TIMEOUT_DELAY = 500;
+
 const imgFilters = document.querySelector('.img-filters');
 const imgFiltersForm = document.querySelector('.img-filters__form');
 
@@ -28,4 +30,4 @@ const setFilter = (cb) => {
   });
 };
 
-export {showFilters, setFilter};
+export {showFilters, setFilter, TIMEOUT_DELAY};
