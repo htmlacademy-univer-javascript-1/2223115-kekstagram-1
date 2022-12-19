@@ -1,13 +1,16 @@
-function  getRandomPositiveInteger(begin, end){
-  const lower = Math.ceil(Math.min(Math.abs(begin), Math.abs(end)));
-  const upper = Math.floor(Math.max(Math.abs(begin), Math.abs(end)));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-}
-getRandomPositiveInteger(1,4);
+import {renderThumbnails} from './rendering-thumbnails.js';
+import {setUserFormSubmit, closeEditor} from './user-form.js';
+import {getDataFromServer} from './api.js';
+import {showFilters, setFilter} from './photo-filter.js';
+import {debounce} from './util.js';
 
-function checkStringLength(message, maxLength){
-  return message.length <= maxLength;
-}
-checkStringLength('Hello, world!',100);
+const TIMEOUT_DELAY = 500;
+
+getDataFromServer((data) => {
+  renderThumbnails(data);
+  showFilters();
+  setFilter(debounce((filterData) => renderThumbnails(filterData(data)), TIMEOUT_DELAY));
+});
+
+setUserFormSubmit(closeEditor);
 

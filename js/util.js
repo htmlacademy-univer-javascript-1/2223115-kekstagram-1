@@ -1,23 +1,53 @@
-let userID = 0;
-let commentID = 0;
+const ALERT_SHOW_TIME = 5000;
 
-// eslint-disable-next-line no-undef, no-unused-vars
-const getUsersID = () => ++userID;
+const checkLength = (array, maxLenght) => array.length <= maxLenght;
 
-// eslint-disable-next-line no-undef, no-unused-vars
-const getCommentsID = () => ++commentID;
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const getRandomPositiveInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
+const checkElementUniqueness = (array) => new Set(array).size === array.length;
+
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = '100';
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = '0';
+  alertContainer.style.top = '0';
+  alertContainer.style.right = '0';
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
 };
 
-// eslint-disable-next-line no-unused-vars
-const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
 
-// eslint-disable-next-line no-unused-vars
-const checkStringLength = (message, maxLength) => message.length <= maxLength;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
 
-export {getRandomArrayElement, getCommentsID, getUsersID};
+const shuffleArray = (array) => {
+  let currentIndex = array.length;
+  let randomIndex;
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+};
+
+export {isEscapeKey, checkLength, checkElementUniqueness, showAlert, debounce, shuffleArray};
