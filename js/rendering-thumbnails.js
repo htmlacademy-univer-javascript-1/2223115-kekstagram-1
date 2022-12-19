@@ -3,7 +3,14 @@ import {openBigPicture} from './rendering-full-photo.js';
 const containerPublications = document.querySelector('.pictures');
 const randomUserTemplate = document.querySelector('#picture').content.querySelector('a');
 
+const clearThumbnails = () => {
+  const pictureList = document.querySelectorAll('.picture');
+
+  pictureList.forEach((picture) => picture.remove());
+};
+
 const renderThumbnails = (publications) => {
+  clearThumbnails();
   const similarFragment = document.createDocumentFragment();
 
   publications.forEach(({url, likes, comments, description}) => {
