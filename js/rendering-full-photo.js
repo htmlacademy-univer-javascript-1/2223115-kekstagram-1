@@ -7,11 +7,12 @@ const closePictureButton = bigPicture.querySelector('.big-picture__cancel');
 const commentTemplate = document.querySelector('#comment');
 const commentsBlock = bigPicture.querySelector('.social__comments');
 const loadingСommentsButton = bigPicture.querySelector('.comments-loader');
-const commentsCount = bigPicture.querySelector('.social__comment-count');
-let currentCommentCounter = 0;
-let allComments = '';
+const shownCommentsCount = bigPicture.querySelector('.shown-comments-count');
 
-function appendNewComments ({avatar, name, message}) {
+let currentCommentCounter;
+let allComments;
+
+function appendNewComments ({avatar, message, name}) {
   const newComment = commentTemplate.cloneNode(true).content;
 
   newComment.querySelector('img').src = avatar;
@@ -32,9 +33,8 @@ function onBigPictureCloseButtonClick () {
   closeBigPicture();
 }
 
-
 function addCommentsCount (value) {
-  commentsCount.textContent = value;
+  shownCommentsCount.textContent = value;
 }
 
 function loadNewComments() {
@@ -68,7 +68,7 @@ function openBigPicture ({url, description, likes, comments}) {
   bigPicture.classList.remove('hidden');
   bigPicture.querySelector('.big-picture__img').querySelector('img').setAttribute('src', url);
   bigPicture.querySelector('.likes-count').textContent = likes;
-  commentsCount.textContent = comments.length;
+  bigPicture.querySelector('.comments-count').textContent = comments.length;
   bigPicture.querySelector('.social__caption').textContent = description;
 
   loadingСommentsButton.classList.remove('hidden');

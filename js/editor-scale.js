@@ -3,12 +3,10 @@ const MIN_SCALE_VALUE = 25;
 const SCALE_STEP = 25;
 const DEFAULT_VALUE = 100;
 
-const imgUploadForm = document.querySelector('.img-upload__form');
-
-const scaleValue = imgUploadForm.querySelector('.scale__control--value');
-const smallerScaleElement = imgUploadForm.querySelector('.scale__control--smaller');
-const biggerScaleElement = imgUploadForm.querySelector('.scale__control--bigger');
-const imgUploadPreviewElement = imgUploadForm.querySelector('.img-upload__preview').querySelector('img');
+const scaleValue = document.querySelector('.scale__control--value');
+const smallerScaleElement = document.querySelector('.scale__control--smaller');
+const biggerScaleElement = document.querySelector('.scale__control--bigger');
+const imgUploadPreviewElement = document.querySelector('.img-upload__preview').querySelector('img');
 
 scaleValue.value = `${DEFAULT_VALUE}%`;
 
@@ -56,4 +54,4 @@ function removeScaling () {
   biggerScaleElement.removeEventListener('click', onBiggerScaleElementClick);
 }
 
-export {imgUploadForm, imgUploadPreviewElement, addScaling, removeScaling};
+export {addScaling, removeScaling};

@@ -1,6 +1,22 @@
-import {imgUploadForm, imgUploadPreviewElement} from './editor-scale.js';
-
 const EFFECTS = {
+  NONE: {
+    range: {
+      min: 0,
+      max: 1,
+    },
+    start: 1,
+    step: 0.1,
+    connect: 'lower',
+    format: {
+      to: function (value) {
+        return value;
+      },
+      from: function (value) {
+        return parseFloat(value);
+      }
+    }
+  },
+
   CHROME: {
     range: {
       min: 0,
@@ -101,10 +117,12 @@ const EFFECTS = {
   }
 };
 
-const effectRadioButton = imgUploadForm.querySelector('.effects__list');
-const depthEffectValue = imgUploadForm.querySelector('.effect-level__value');
-const depthEffectRange= imgUploadForm.querySelector('.img-upload__effect-level');
-const sliderElement = imgUploadForm.querySelector('.effect-level__slider');
+const effectRadioButton = document.querySelector('.effects__list');
+const depthEffectValue = document.querySelector('.effect-level__value');
+const depthEffectRange = document.querySelector('.img-upload__effect-level');
+const sliderElement = document.querySelector('.effect-level__slider');
+const imgUploadPreviewElement = document.querySelector('.img-upload__preview').querySelector('img');
+
 
 function uploadStyle (styleCommand) {
   sliderElement.noUiSlider.on('update', () => {
@@ -126,6 +144,9 @@ function applyNoneEffect () {
   removeLastEffect();
   imgUploadPreviewElement.classList.add('effects__preview--none');
   depthEffectRange.classList.add('hidden');
+
+  noUiSlider.create(sliderElement, EFFECTS.NONE);
+  uploadStyle('');
 }
 
 function applyChromeEffect () {
@@ -208,14 +229,16 @@ function onEffectChange (evt) {
 }
 
 function addEffect () {
-  imgUploadPreviewElement.classList.add('effects__preview--none');
-  depthEffectRange.classList.add('hidden');
+  applyNoneEffect();
   effectRadioButton.addEventListener('change', onEffectChange);
 }
 
 function removeEffect () {
-  removeLastEffect();
+  applyNoneEffect();
+  document.querySelector('#effect-none').checked = true;
+
   effectRadioButton.removeEventListener('change', onEffectChange);
+  sliderElement.noUiSlider.destroy();
 }
 
 export {addEffect, removeEffect};

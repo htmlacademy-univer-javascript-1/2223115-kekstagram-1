@@ -1,23 +1,10 @@
 const ALERT_SHOW_TIME = 5000;
 
-let userID = 0;
-let commentID = 0;
-
-const getUsersID = () => ++userID;
-
-const getCommentsID = () => ++commentID;
-
-const getRandomPositiveInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
-
-// eslint-disable-next-line no-unused-vars
-const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
+const checkLength = (array, maxLenght) => array.length <= maxLenght;
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const checkElementUniqueness = (array) => new Set(array).size === array.length;
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -40,4 +27,27 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {getRandomArrayElement, getRandomPositiveInteger, getCommentsID, getUsersID, isEscapeKey, showAlert};
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+const shuffleArray = (array) => {
+  let currentIndex = array.length;
+  let randomIndex;
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+};
+
+export {isEscapeKey, checkLength, checkElementUniqueness, showAlert, debounce, shuffleArray};
