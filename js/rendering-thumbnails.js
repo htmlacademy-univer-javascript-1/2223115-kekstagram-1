@@ -11,6 +11,7 @@ const clearThumbnails = () => {
 
 const renderThumbnails = (publications) => {
   clearThumbnails();
+
   const similarFragment = document.createDocumentFragment();
 
   publications.forEach(({url, likes, comments, description}) => {
